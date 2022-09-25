@@ -1,5 +1,9 @@
-const generationError = require("./generationError");
-const ctrlWrapper = require("./ctrlWrapper");
-const handleErrorSchema = require("./handleErrorSchema.js");
+const RequestError = require("./RequestError");
+const controllerWrapper = require("./controllerWrapper");
+const schemaValidation = require("./schemaValidation");
 
-module.exports = { generationError, ctrlWrapper, handleErrorSchema, };
+module.exports = {
+  RequestError,
+  controllerWrapper,
+  schemaValidation,
+};
