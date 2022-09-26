@@ -7,21 +7,21 @@ const { schemaJoi } = require('../..//models/Book');
 const {validationBody, authenticate}=require('../../middlewares')
 
 router.get('/',
-    // authenticate,
+    authenticate,
     controllerWrapper(ctrl.getAllBooks));
 
 router.post('/',
-    // authenticate,
+    authenticate,
     validationBody(schemaJoi.addSchema),
     controllerWrapper(ctrl.addBook));
 
 router.patch('/:bookId',
-    // authenticate,
+    authenticate,
     validationBody(schemaJoi.updateSchema),
     controllerWrapper(ctrl.updateBook));
 
 router.patch('/:bookId/status',
-    // authenticate,
+    authenticate,
     validationBody(schemaJoi.updateStatusSchema),
     controllerWrapper(ctrl.updateStatusBook))
 

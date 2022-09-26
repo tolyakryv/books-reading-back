@@ -32,11 +32,12 @@ const bookSchema = new Schema(
     },
     resume: {
       type: String,
+      default: '',
     },
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
-    //   required: true,
+      required: true,
     },
   },
   { versionKey: false, timestamps: true }
