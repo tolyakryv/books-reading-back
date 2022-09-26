@@ -48,7 +48,7 @@ const trainingSchema = new Schema(
             },
 
             amountPages: {
-                type: Number,
+                type: Date,
                 required: [true, "amountPage must be exist"],
             }
         }]
@@ -68,10 +68,15 @@ const updateStatusSchemaJoi = Joi.object({
     status:Joi.string().valid("goingToRead", "readingNow", "alreadyRead").required()
 })
 
+const addStatisticSchemaJoi = Joi.object({
+    date:Joi.date().required(),
+    amountPages:Joi.number().integer().min(1).max(700).required()
+});
 
 const schemaJoi = {
     addTimeTrain:addTimeTrainSchemaJoi,
-    updateStatusSchema:updateStatusSchemaJoi    
+    updateStatusSchema: updateStatusSchemaJoi,
+    addStatistic:addStatisticSchemaJoi
 }
 
 const Train = model('train', trainingSchema);

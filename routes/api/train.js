@@ -10,8 +10,14 @@ router.get('/',
     authenticate,
     controllerWrapper(ctrl.getTrain));
 
+router.post('/',
+    authenticate,
+    validationBody(schemaJoi.addTimeTrain),
+    controllerWrapper(ctrl.addTrain));
+
 router.patch('/statistic',
     authenticate,
+    validationBody(schemaJoi.addStatistic),
     controllerWrapper(ctrl.addStatistic));
 
 router.patch('/:bookId',
