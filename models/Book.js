@@ -40,7 +40,7 @@ const bookSchema = new Schema(
       required: true,
     },
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false }
 );
 
 
@@ -59,14 +59,12 @@ const updateSchemaJoi = Joi.object({
     resume: Joi.string().min(1).max(50)
 })
 
-const updateStatusSchemaJoi = Joi.object({
-    status:Joi.string().valid("goingToRead", "readingNow", "alreadyRead").required()
-})
+
 
 const schemaJoi = {
     addSchema: addSchemaJoi,
     updateSchema: updateSchemaJoi,
-    updateStatusSchema:updateStatusSchemaJoi
+    
 }
 
 const Book = model('book', bookSchema);

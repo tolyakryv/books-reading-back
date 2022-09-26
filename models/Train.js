@@ -41,17 +41,17 @@ const trainingSchema = new Schema(
             },
             
         }],
-        // statistic: {
-        //     date: {
-        //         type: Number,
-        //         required: [true, "date must be exist"],
-        //     },
+        statistic: [{
+            date: {
+                type: String,
+                required: [true, "date must be exist"],
+            },
 
-        //     amountPages: {
-        //         type: Number,
-        //         required: [true, "amountPage must be exist"],
-        //     }
-        // }
+            amountPages: {
+                type: Date,
+                required: [true, "amountPage must be exist"],
+            }
+        }]
     },
     { versionKey: false }
 )
@@ -64,8 +64,19 @@ const addTimeTrainSchemaJoi = Joi.object({
     finishDate:Joi.date().required()
 });
 
+const updateStatusSchemaJoi = Joi.object({
+    status:Joi.string().valid("goingToRead", "readingNow", "alreadyRead").required()
+})
+
+const addStatisticSchemaJoi = Joi.object({
+    date:Joi.date().required(),
+    amountPages:Joi.number().integer().min(1).max(700).required()
+});
+
 const schemaJoi = {
-    addTimeTrain:addTimeTrainSchemaJoi
+    addTimeTrain:addTimeTrainSchemaJoi,
+    updateStatusSchema: updateStatusSchemaJoi,
+    addStatistic:addStatisticSchemaJoi
 }
 
 const Train = model('train', trainingSchema);
