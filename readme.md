@@ -1,5 +1,6 @@
 PORT=5000
 BACKEND_URL=https://book-reading-08.herokuapp.com
+FRONTEND_URL=http://localhost:3000
 
 Authorization endpoints: /api/auth
 POST /api/auth/register - res.status(201).json({
