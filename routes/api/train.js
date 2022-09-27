@@ -24,6 +24,10 @@ router.patch('/:bookId',
     authenticate,
     controllerWrapper(ctrl.addBookInTrain));
 
+router.delete('/:bookId',
+    authenticate,
+    controllerWrapper(ctrl.deleteBookInTrain));
+
 router.patch('/:bookId/status',
     authenticate,
     validationBody(schemaJoi.updateStatusSchema),
