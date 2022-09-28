@@ -39,6 +39,10 @@ const bookSchema = new Schema(
       ref: "user",
       required: true,
     },
+    inTrain: {
+      type: Boolean,
+      default:false
+    }
   },
   { versionKey: false }
 );
@@ -58,7 +62,6 @@ const updateSchemaJoi = Joi.object({
     rating: Joi.number().integer().min(1).max(5).required(),
     resume: Joi.string().min(1).max(50)
 })
-
 
 
 const schemaJoi = {
