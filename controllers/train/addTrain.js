@@ -6,9 +6,10 @@ const addTrain = async (req, res, next) => {
 
     const result = await Train.create({ ...req.body, owner:_id });
   
-    res.json({
-       result
-   })
+    res.json(
+       result.startDate,
+       result.finishDate
+   )
 }
 
 module.exports = addTrain;
