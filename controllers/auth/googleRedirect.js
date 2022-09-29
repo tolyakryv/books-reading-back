@@ -1,8 +1,12 @@
 const queryString = require("query-string");
 const axios = require("axios");
 const { User } = require("../../models/user");
+const {Session}=require("../../models/")
 const {
   JWT_SECRET_KEY,
+  TokenLife,
+  RefreshTokenSecret, 
+  RefreshTokenLife,
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   BACKEND_URL,
@@ -40,21 +44,32 @@ const googleRedirect = async (req, res) => {
    const newUser = await User.create({
    email: userData.data.email,
    name: userData.data.name,
- });
+   });
+    
+    const newSession = await Session.create({
+    userId:user._id
+   })
+  
   const payload = {
-    id: newUser._id,
-  };
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "24h" });
-  await User.findByIdAndUpdate(newUser._id, {token});
-  return res.redirect(`${FRONTEND_URL}?access_token=${token}`);
+    id: user._id,
+    sid: newSession._id
   };
 
-  const payload = {
-    id: existingUser._id,
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: TokenLife });
+  const refreshToken = jwt.sign(payload, RefreshTokenSecret, { expiresIn: RefreshTokenLife });
+
+    await User.findByIdAndUpdate(newUser._id, { token });
+    
+  return res.redirect(`${FRONTEND_URL}?access_token=${token}&refreshToken=${refreshToken}&sid=${newSession._id}`);
   };
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "24h" });
-  await User.findByIdAndUpdate(existingUser._id, { token });
-  return res.redirect(`${FRONTEND_URL}?access_token=${token}`);
+
+  // const payload = {
+  //   id: existingUser._id,
+  // };
+  // const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: "24h" });
+  // await User.findByIdAndUpdate(existingUser._id, { token });
+  
+  // return res.redirect(`${FRONTEND_URL}?access_token=${token}`);
 };
 
 module.exports = googleRedirect;
