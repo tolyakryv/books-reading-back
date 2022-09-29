@@ -3,7 +3,7 @@ const Joi = require("joi");
 const { schemaValidation } = require("../helpers");
 const bcrypt = require("bcryptjs");
 
-const PASSWORD_REGEXP = /^[a-zA-Z0-9]{6,10}$/;
+const PASSWORD_REGEXP = /^[a-zA-Z0-9]{6,30}$/;
 const EMAIL_REGEXP =
   /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
 
@@ -20,7 +20,6 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      required: [true, "Set password for user"],
     },
     token: {
       type: String,
