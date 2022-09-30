@@ -4,6 +4,7 @@ const logout = require("./logout");
 const currentUser = require("./currentUser");
 const googleAuth = require("./googleAuth");
 const googleRedirect = require("./googleRedirect");
+const refreshToken = require("./refreshToken");
 
 module.exports = {
   register,
@@ -12,4 +13,5 @@ module.exports = {
   currentUser,
   googleAuth,
   googleRedirect,
+  refreshToken
 };
