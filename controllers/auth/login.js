@@ -33,7 +33,7 @@ const login = async (req, res) => {
   res.status(200).json({
     token,
     refreshToken,
-    sid,
+    sid: newSession._id,
     user: {
       email,
     },

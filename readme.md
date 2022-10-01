@@ -6,13 +6,14 @@ FRONTEND_URL=http://localhost:3000
 Authorization endpoints: 
 POST /api/auth/register - res.status(201).json({user:{name,email,id},}); - реєстрація
 
-POST /api/auth/login - res.status(200).json({token, user:{email},}); - логін
+POST /api/auth/login -  res.status(200).json({token,refreshToken,sid: newSession._id,
+user: {email}, - логін
 
 GET /api/auth/logout - res.status(204); - логаут
 
 GET /api/auth/current - res.status(200).json({user:{name,email},}); - поточний користувач
 
-GET /api/auth/google - access_token; - Гугл авторизація
+GET /api/auth/google - access_token,refreshToken,sid; - Гугл авторизація
 
 Book endpoints: 
 POST /api/book/ - res.json({title,author,publicDate,amountPages,status:"goingToRead",rating:0,resume:"",inTrain:false}); - додати книжку
