@@ -1,7 +1,7 @@
 const queryString = require("query-string");
 const axios = require("axios");
 const { User } = require("../../models/user");
-const {Session}=require("../../models/Session")
+const {Session} = require("../../models/Session")
 const {
   JWT_SECRET_KEY,
   TokenLife,
