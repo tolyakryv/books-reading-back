@@ -5,11 +5,11 @@ const { schemaValidation } = require('../helpers');
 const trainingSchema = new Schema(
     {
         startDate: {
-            type: Date,
+            type: Number,
             required: [true, "startDate must be exist"],
         },
         finishDate: {
-            type: Date,
+            type: Number,
             required: [true, "finishDate must be exist"],
         },
         owner: {
@@ -43,10 +43,13 @@ const trainingSchema = new Schema(
         }],
         statistic: [{
             date: {
-                type: String,
+                type: Number,
                 required: [true, "date must be exist"],
             },
-
+            createAt: {
+                type: Number,
+                required: [true, "date must be exist"],
+            },
             amountPages: {
                 type: Date,
                 required: [true, "amountPage must be exist"],
@@ -60,8 +63,9 @@ const trainingSchema = new Schema(
 trainingSchema.post('save', schemaValidation)
 
 const addTimeTrainSchemaJoi = Joi.object({
-    startDate:Joi.date().max(Joi.ref('finishDate')).required(),
-    finishDate:Joi.date().required()
+    startDate:Joi.number().integer().min(100).required(),
+    finishDate: Joi.number().integer().min(100).required(),
+    book: Joi.array().items(String())
 });
 
 const updateStatusSchemaJoi = Joi.object({
