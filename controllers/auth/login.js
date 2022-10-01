@@ -35,7 +35,8 @@ const login = async (req, res) => {
     refreshToken,
     sid:newSession._id,
     user: {
-      email,
+      name: user.name,
+      email
     },
   });
 };
