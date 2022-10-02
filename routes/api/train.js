@@ -1,36 +1,38 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { controllerWrapper } = require('../../helpers');
-const ctrl = require('../../controllers/train');
-const { schemaJoi } = require('../..//models/Train');
-const {validationBody, authenticate}=require('../../middlewares')
+const { controllerWrapper } = require("../../helpers");
+const ctrl = require("../../controllers/train");
+const { schemaJoi } = require("../..//models/Train");
+const { validationBody, authenticate } = require("../../middlewares");
 
-router.get('/',
+router.get("/",
     authenticate,
     controllerWrapper(ctrl.getTrain));
 
-router.post('/',
-    authenticate,
-    validationBody(schemaJoi.addTimeTrain),
-    controllerWrapper(ctrl.addTrain));
+router.post(
+  "/",
+  authenticate,
+  validationBody(schemaJoi.addTimeTrain),
+  controllerWrapper(ctrl.addTrain)
+);
 
-router.patch('/statistic',
+router.delete("/",
     authenticate,
-    validationBody(schemaJoi.addStatistic),
-    controllerWrapper(ctrl.addStatistic));
+    controllerWrapper(ctrl.deleteTrain));
 
-router.patch('/:bookId',
-    authenticate,
-    controllerWrapper(ctrl.addBookInTrain));
+router.patch(
+  "/statistic",
+  authenticate,
+  validationBody(schemaJoi.addStatistic),
+  controllerWrapper(ctrl.addStatistic)
+);
 
-router.delete('/:bookId',
-    authenticate,
-    controllerWrapper(ctrl.deleteBookInTrain));
-
-router.patch('/:bookId/status',
-    authenticate,
-    validationBody(schemaJoi.updateStatusSchema),
-    controllerWrapper(ctrl.updateStatusBook));
+router.patch(
+  "/:bookId/status",
+  authenticate,
+  validationBody(schemaJoi.updateStatusSchema),
+  controllerWrapper(ctrl.updateStatusBook)
+);
 
 module.exports = router;

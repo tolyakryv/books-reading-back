@@ -3,10 +3,11 @@ const { Train } = require('../../models/Train');
 
 const addStatistic = async (req, res, next) => {
     const { _id } = req.user;
-    const { date, amountPages } = req.body;
+    const { date, createAt, amountPages } = req.body;
 
     const newStatistic = {
         date,
+        createAt,
         amountPages
     }
 

@@ -1,16 +1,20 @@
 const { Train } = require('../../models/Train');
+const { Book } = require('../../models/Book');
 
 
 const addTrain = async (req, res, next) => {
     const { _id } = req.user;
-    console.log(req.body);
+    const arrBooks = req.body.book;
+    const arrNewBooks = [];
 
-    const result = await Train.create({ ...req.body, owner:_id });
-  
-    res.json(
-       result.startDate,
-       result.finishDate
-   )
+    for (const book of arrBooks) {
+        const newBook = await Book.findOne({ _id: book, owner: _id });
+        await arrNewBooks.push(newBook);
+    }
+       
+    const newTrain = await Train.create({owner:_id, startDate: req.body.startDate, finishDate: req.body.finishDate, book: arrNewBooks   })
+    
+    res.json(newTrain)
 }
 
 module.exports = addTrain;
