@@ -1,6 +1,5 @@
 PORT=5000
-BACKEND_HEROKUAPP=https://book-reading-08.herokuapp.com
-BACKEND_URL=http://localhost:5000
+BACKEND_URL=https://book-reading-08.herokuapp.com
 FRONTEND_URL=http://localhost:3000
 
 Authorization endpoints: 
