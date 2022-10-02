@@ -8,7 +8,7 @@ const addTrain = async (req, res, next) => {
     const arrNewBooks = [];
 
     for (const book of arrBooks) {
-        const newBook = await Book.findOne({ _id: book, owner: _id });
+        const newBook = await Book.findOneAndUpdate({ _id: book, owner: _id },{status:"readingNow"},{new:true});
         await arrNewBooks.push(newBook);
     }
        
