@@ -4,6 +4,7 @@ const { controllerWrapper } = require("../../helpers");
 const {  validationBody,  authenticate} = require("../../middlewares");
 const { schemas } = require("../../models/user");
 const router = express.Router();
+
 router.post("/refresh", controllerWrapper(ctrl.refreshToken));
 
 router.post("/register",

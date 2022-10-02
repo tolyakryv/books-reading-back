@@ -65,7 +65,7 @@ trainingSchema.post('save', schemaValidation)
 const addTimeTrainSchemaJoi = Joi.object({
     startDate:Joi.number().integer().min(100).required(),
     finishDate: Joi.number().integer().min(100).required(),
-    book: Joi.array().items(String())
+    book:Joi.array()
 });
 
 const updateStatusSchemaJoi = Joi.object({

@@ -22,33 +22,81 @@ GET /api/auth/logout - res.status(204); - логаут (для перевірк�
 GET /api/auth/current - res.status(200).json({user:{name,email},}); - поточний користувач (для перевірки на Постман передать токен в параметр авторизації)
 
 GET /api/auth/google - access_token,refreshToken,sid; - Гугл авторизація
+POST /api/auth/refresh-
+req.body(refreshToken)
+res.json{
+sid: newSession.\_id,
+newToken,
+newRefreshToken
 
-Book endpoints: 
-POST /api/book/ - res.json({title,author,publicDate,amountPages,status:"goingToRead",rating:0,resume:"",inTrain:false}); - додати книжку
+        }
 
-GET /api/book/ - res.json({
-[
-{_id,title,author,publicDate,amountPages,
-status:"goingToRead",rating:0,resume:"",inTrain:false},
-{_id,title,author,publicDate,amountPages,
-status:"goingToRead",rating:0,resume:"",inTrain:false},
+Book endpoints:
+POST /api/book/ - Додавання книжки
+req.body({
+title: Joi.string()
+author: Joi.string()
+publicDate: Joi.number()
+amountPages:Joi.number()
+})
+
+res.body({
+"result": {
+"title": "Good Work",
+"author": "People",
+"publicDate": 1900,
+"amountPages": 50,
+"status": "goingToRead",
+"rating": 0,
+"resume": "",
+"owner": "633409513a89db83049541ea",
+"\_id": "633979750de358723f0faca1"
+}
+})
+
+GET /api/book/ - отримання всіх книжок
+res.json({
+"result": [
+{
+"\_id": "63396e8440286b450648c6a2",
+"title": "Fox and Wolf",
+"author": "People",
+"publicDate": 1900,
+"amountPages": 50,
+"status": "goingToRead",
+"rating": 0,
+"resume": "",
+"owner": "633409513a89db83049541ea"
+},
+{
+"\_id": "6339738c9e22d985c0c0fad2",
+"title": "Good Work",
+"author": "People",
+"publicDate": 1900,
+"amountPages": 50,
+"status": "goingToRead",
+"rating": 0,
+"resume": "",
+"owner": "633409513a89db83049541ea"
+},
 ]
-}); - отримати всі книжки масив
+});
 
-PATCH /api/book/:bookId - res.json({rating,resume}); - додати рецензію
-
+PATCH /api/book/:bookId - Додавання рецензії
+req.body{
+rating: Joi.number().integer().min(1).max(5).required(),
+resume: Joi.string().min(1).max(50)
+}
+res.json({rating,resume});
 
 Training endpoints:
-GET /api/train/  - res.json({_id,startDate,finishDate,owner,book[],
-statistic:[{date, amountPages}]}); - отримати тренування
+GET /api/train/ - res.json({\_id,startDate,finishDate,owner,book[],
+statistic:[{date, createAt, amountPages}]}); - отримати тренування
 
-POST /api/train/  - res.json({start,finis}); - додати тренування
+POST /api/train/ - res.json({startDate,finishDate,book[]}); - додати тренування
 
-PATCH /api/train/statistic  - res.json({statistic:[{date, amountPages}]}); - додати статистику
+PATCH /api/train/statistic - res.json({statistic:[{date, createAt amountPages}]}); - додати статистику
 
-PATCH /api/train/:bookId  - res.json({book[title,author,publicDate,amountPages,status:readingNow,_id]}); - додати книжку до тренування
+DELETE /api/train/ - res.json("Delete train"); - видалення тренування
 
-DELETE /api/train/:bookId  - res.json({book[]}); - видалити книжку з тренування
-
-PATCH /api/train/:bookId/status - res.json({status}); - змінити статус книжки 
-
+PATCH /api/train/:bookId/status - res.json({status}); - змінити статус книжки
