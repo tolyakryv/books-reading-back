@@ -98,7 +98,41 @@
             "content": {}
           },
           "401": {
-            "description": "Email doesn't exist / Password is wrong",
+            "description": "Email is wrong / Password is wrong",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/google": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Google authentication",
+        "responses": {
+          "200": {
+            "description": "Successful operation (redirect to front-end with name, email, access_token, refreshToken and sid in query). Then use GET /user/books",
+            "content": {}
+           }
+        }
+      }
+    },
+    "/api/auth/current": {
+      "get": {
+        "tags": ["Auth"],
+        "summary": "Get current user",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+             "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
             "content": {}
           }
         }
@@ -115,48 +149,12 @@
             "description": "Successful operation",
             "content": {}
           },
-          "400": {
-            "description": "No token provided",
-            "content": {}
-          },
           "401": {
             "description": "Unauthorized (invalid access token)",
             "content": {}
           },
           "404": {
             "description": "Invalid user / Invalid session",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/auth/google": {
-      "get": {
-        "tags": ["Auth"],
-        "summary": "Google authentication",
-        "responses": {
-          "200": {
-            "description": "Successful operation (redirect to front-end with access_token, refreshToken and sid in query). Then use GET /user/books",
-            "content": {}
-          }
-        }
-      }
-    },
-    "/api/auth/current": {
-      "get": {
-        "tags": ["Auth"],
-        "summary": "Get current user",
-        "responses": {
-          "200": {
-            "description": "Successful operation (redirect to front-end with access_token, refreshToken and sid in query). Then use GET /user/books",
-            "content": {}
-          },
-          "401": {
-            "description": "Unauthorized (invalid access token)",
-            "content": {}
-          },
-          "403": {
-            "description": "Not registered or registered with postman",
             "content": {}
           }
         }
@@ -227,7 +225,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schemas/GetBookResponse"
                 }
               }
             }
@@ -267,7 +265,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "t"
+                "$ref": "#/components/schemas/ResumeBookRequest"
               }
             }
           }
@@ -278,7 +276,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": ""
+                  "$ref": "#/components/schemas/ResumeBookResponse"
                 }
               }
             }
@@ -313,15 +311,15 @@
             "type": "string",
             "description": "User's name",
             "example": "Test",
-            "minLength": 2,
-            "maxLength": 254
+            "minLength": 3,
+            "maxLength": 100
           },
           "email": {
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "minLength": 2,
-            "maxLength": 254
+            "minLength": 10,
+            "maxLength": 63
           },
           "password": {
             "type": "string",
@@ -367,8 +365,8 @@
             "type": "string",
             "description": "User's email",
             "format": "email",
-            "minLength": 2,
-            "maxLength": 254
+            "minLength": 10,
+            "maxLength": 63
           },
           "password": {
             "type": "string",
@@ -400,13 +398,40 @@
           "user": {
             "type": "object",
             "properties": {
-                "email": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Test"
+              },
+              "email": {
                 "type": "string",
                 "description": "User's email",
                 "format": "email"
-                }}
-                }
-              }},
+              }
+            }
+          }
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Test"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
+            }
+          }
+        }
+      },
       "AddBookRequest": {
         "required": ["title", "author", "publicDate", "amountPages"],
         "type": "object",
@@ -416,14 +441,14 @@
             "example": "The Book of Five Rings",
             "description": "Book's title",
             "minLength": 1,
-            "maxLength": 254
+            "maxLength": 50
           },
           "author": {
             "type": "string",
             "example": "Miyamoto Musashi",
             "description": "Book's author",
-            "minLength": 2,
-            "maxLength": 254
+            "minLength": 1,
+            "maxLength": 50
           },
           "publicDate": {
             "type": "integer",
@@ -433,9 +458,10 @@
           "amountPages": {
             "type": "integer",
             "example": 110,
+            "minLength": 1,
             "description": "Book's total amount of pages",
             "minimum": 1,
-            "maximum": 5000
+            "maximum": 9999
           }
         }
       },
@@ -468,5 +494,37 @@
             "example": "507f1f77bcf86cd799439013"
           }
         }
+      },
+      "GetBookResponse": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "The Book of Five Rings",
+            "description": "Book's title"
+          },
+          "author": {
+            "type": "string",
+            "example": "Miyamoto Musashi",
+            "description": "Book's author"
+          },
+          "publicDate": {
+            "type": "integer",
+            "example": 1643,
+            "description": "Book's publish year"
+          },
+          "amountPages": {
+            "type": "integer",
+            "example": 110,
+            "description": "Book's total amount of pages"
+          },
+          "_id": {
+            "type": "string",
+            "description": "Book's id",
+            "example": "507f1f77bcf86cd799439013"
+          }
+        }
       }
-    }}}
+    }
+  }
+}
