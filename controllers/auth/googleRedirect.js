@@ -62,7 +62,7 @@ const googleRedirect = async (req, res) => {
     await User.findByIdAndUpdate(newUser._id, { token });
     
   return res.redirect(
-    `${FRONTEND_URL}?name=${userData.data.name}&email=${userData.data.email}&access_token=${token}&refreshToken=${refreshToken}&sid=${newSession._id}`
+    `${FRONTEND_URL}/login?access_token=${token}&refreshToken=${refreshToken}&sid=${newSession._id}`
   );
   };
 
@@ -80,7 +80,7 @@ const googleRedirect = async (req, res) => {
   await User.findByIdAndUpdate(existingUser._id, { token });
   
   return res.redirect(
-    `${FRONTEND_URL}?name=${userData.data.name}&email=${userData.data.email}&access_token=${token}&refreshToken=${refreshToken}&sid=${newSession._id}`
+    `${FRONTEND_URL}/login?access_token=${token}&refreshToken=${refreshToken}&sid=${newSession._id}`
   );
 };
 

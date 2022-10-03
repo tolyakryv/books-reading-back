@@ -19,11 +19,11 @@
     },
     {
       "name": "Book",
-      "description": "Book endpoints"
+      "description": "Library endpoints"
     },
     {
       "name": "Train",
-      "description": "Train endpoints"
+      "description": "Training endpoints"
     }
   ],
 
@@ -32,7 +32,6 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
-        "parameters": [],
         "requestBody": {
           "description": "Registration's object",
           "required": true,
@@ -70,9 +69,8 @@
       "post": {
         "tags": ["Auth"],
         "summary": "User authentication",
-        "parameters": [],
         "requestBody": {
-          "description": "Authentication's object",
+          "description": "Login's object",
           "required": true,
           "content": {
             "application/json": {
@@ -104,6 +102,44 @@
         }
       }
     },
+    "/api/auth/refresh": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh token",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "RefreshToken object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RefreshTokenResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Email is already in use",
+            "content": {}
+          }
+        }
+      }
+    },
     "/api/auth/google": {
       "get": {
         "tags": ["Auth"],
@@ -112,7 +148,7 @@
           "200": {
             "description": "Successful operation (redirect to front-end with name, email, access_token, refreshToken and sid in query). Then use GET /user/books",
             "content": {}
-           }
+          }
         }
       }
     },
@@ -120,10 +156,11 @@
       "get": {
         "tags": ["Auth"],
         "summary": "Get current user",
+        "security": [{ "Bearer": [] }],
         "responses": {
           "200": {
             "description": "Successful operation",
-             "content": {
+            "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CurrentUserResponse"
@@ -143,7 +180,6 @@
         "tags": ["Auth"],
         "summary": "Logout",
         "security": [{ "Bearer": [] }],
-        "parameters": [],
         "responses": {
           "204": {
             "description": "Successful operation",
@@ -161,7 +197,7 @@
       }
     },
 
-    "/api/book/": {
+    "/api/book": {
       "post": {
         "tags": ["Book"],
         "summary": "Add new book to library",
@@ -207,18 +243,6 @@
         "tags": ["Book"],
         "summary": "Get all books",
         "security": [{ "Bearer": [] }],
-        "parameters": [],
-        "requestBody": {
-          "description": "Book's object",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": ""
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Successful operation",
@@ -245,7 +269,7 @@
         }
       }
     },
-    "/api/book": {
+    "/api/book/:bookId": {
       "patch": {
         "tags": ["Book"],
         "summary": "Add book's rating and resume",
@@ -299,8 +323,206 @@
           }
         }
       }
+    },
+    "/api/train": {
+      "post": {
+        "tags": ["Train"],
+        "summary": "Add new training",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Train's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddTrainingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AddTrainingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body / No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+        }
+      },
+      "get": {
+        "tags": ["Train"],
+        "summary": "Get Train",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetTrainingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body / No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Train"],
+        "summary": "Delete Train",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {}
+          },
+          "400": {
+            "description": "Invalid request body / No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/train/statistic": {
+      "patch": {
+        "tags": ["Train"],
+        "summary": "Add Train statistic",
+        "security": [{ "Bearer": [] }],
+        "parameters": [],
+        "requestBody": {
+          "description": "Train's statistic",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrainingStatisticRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingStatisticResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body / Invalid 'bookId' / No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "403": {
+            "description": "Book hasn't been finished yet",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/train/:bookId/status": {
+      "patch": {
+        "tags": ["Train"],
+        "summary": "Change Train status",
+        "security": [{ "Bearer": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bookId",
+            "description": "Book's id",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "requestBody": {
+          "description": "Book's resume object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TrainingStatusRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TrainingStatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body / Invalid 'bookId' / No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "403": {
+            "description": "Book hasn't been finished yet",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "RegistrationRequest": {
@@ -340,20 +562,76 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
-          "name": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Test"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "507f1f77bcf86cd799439011"
+              }
+            }
+          }
+        }
+      },
+      "RefreshTokenRequest": {
+        "required": ["sid"],
+        "type": "object",
+        "properties": {
+          "sid": {
             "type": "string",
-            "description": "User's name",
-            "example": "Test"
+            "description": "User's session id",
+            "example": "633adf04e5361c78572ea435"
+          }
+        }
+      },
+      "RefreshTokenResponse": {
+        "type": "object",
+        "properties": {
+          "sid": {
+            "type": "string",
+            "description": "Session's id (needed for /auth/refresh)",
+            "example": "507f1f77bcf86cd799439010"
           },
-          "email": {
+          "newToken": {
             "type": "string",
-            "description": "User's email",
-            "format": "email"
+            "description": "Session's access token (needed for all requests)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
           },
-          "id": {
+          "newRefreshToken": {
             "type": "string",
-            "description": "User's id",
-            "example": "507f1f77bcf86cd799439011"
+            "description": "Session's refresh token (needed for /auth/refresh)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXB"
+          }
+        }
+      },
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Test"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              }
+            }
           }
         }
       },
@@ -412,26 +690,6 @@
           }
         }
       },
-      "CurrentUserResponse": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "User's name",
-                "example": "Test"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "format": "email"
-              }
-            }
-          }
-        }
-      },
       "AddBookRequest": {
         "required": ["title", "author", "publicDate", "amountPages"],
         "type": "object",
@@ -452,7 +710,7 @@
           },
           "publicDate": {
             "type": "integer",
-            "example": 1643,
+            "example": 1900,
             "description": "Book's publish year"
           },
           "amountPages": {
@@ -466,64 +724,377 @@
         }
       },
       "AddBookResponse": {
-        "type": "object",
+        "type": "",
         "properties": {
-          "title": {
-            "type": "string",
-            "example": "The Book of Five Rings",
-            "description": "Book's title"
-          },
-          "author": {
-            "type": "string",
-            "example": "Miyamoto Musashi",
-            "description": "Book's author"
-          },
-          "publicDate": {
-            "type": "integer",
-            "example": 1643,
-            "description": "Book's publish year"
-          },
-          "amountPages": {
-            "type": "integer",
-            "example": 110,
-            "description": "Book's total amount of pages"
-          },
-          "_id": {
-            "type": "string",
-            "description": "Book's id",
-            "example": "507f1f77bcf86cd799439013"
+          "result": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "example": "The Book of Five Rings",
+                "description": "Book's title"
+              },
+              "author": {
+                "type": "string",
+                "example": "Miyamoto Musashi",
+                "description": "Book's author"
+              },
+              "publicDate": {
+                "type": "integer",
+                "example": 1643,
+                "description": "Book's publish year"
+              },
+              "amountPages": {
+                "type": "integer",
+                "example": 110,
+                "description": "Book's total amount of pages"
+              },
+              "status": {
+                "type": "string",
+                "example": "goingToRead",
+                "description": "Book's status"
+              },
+              "rating": {
+                "type": "integer",
+                "example": 0,
+                "description": "Book's rating"
+              },
+              "resume": {
+                "type": "string",
+                "example": "",
+                "description": "Book's resume"
+              },
+              "owner": {
+                "type": "string",
+                "example": "633409513a89db83049541ea",
+                "description": "Book's owner"
+              },
+              "inTrain": {
+                "type": "boolean",
+                "example": "false",
+                "description": "Book's train status"
+              },
+              "_id": {
+                "type": "string",
+                "example": "507f1f77bcf86cd799439013",
+                "description": "Book's id"
+              }
+            }
           }
         }
       },
       "GetBookResponse": {
         "type": "object",
         "properties": {
-          "title": {
-            "type": "string",
-            "example": "The Book of Five Rings",
-            "description": "Book's title"
-          },
-          "author": {
-            "type": "string",
-            "example": "Miyamoto Musashi",
-            "description": "Book's author"
-          },
-          "publicDate": {
-            "type": "integer",
-            "example": 1643,
-            "description": "Book's publish year"
-          },
-          "amountPages": {
-            "type": "integer",
-            "example": 110,
-            "description": "Book's total amount of pages"
-          },
-          "_id": {
-            "type": "string",
-            "description": "Book's id",
-            "example": "507f1f77bcf86cd799439013"
+          "result": {
+            "type": "array",
+            "description": "User's library",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "507f1f77bcf86cd799439013",
+                  "description": "Book's id"
+                },
+                "title": {
+                  "type": "string",
+                  "example": "The Book of Five Rings",
+                  "description": "Book's title"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "Miyamoto Musashi",
+                  "description": "Book's author"
+                },
+                "publicDate": {
+                  "type": "integer",
+                  "example": 1900,
+                  "description": "Book's publish year"
+                },
+                "amountPages": {
+                  "type": "integer",
+                  "example": 110,
+                  "description": "Book's total amount of pages"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "goingToRead",
+                  "description": "Book's status"
+                },
+                "rating": {
+                  "type": "integer",
+                  "example": 0,
+                  "description": "Book's rating"
+                },
+                "resume": {
+                  "type": "string",
+                  "example": "",
+                  "description": "Book's resume"
+                },
+                "owner": {
+                  "type": "string",
+                  "example": "633409513a89db83049541ea",
+                  "description": "Book's owner"
+                },
+                "inTrain": {
+                  "type": "boolean",
+                  "example": "false",
+                  "description": "Book's train status"
+                }
+              }
+            }
           }
         }
+      },
+      "ResumeBookRequest": {
+        "required": ["rating", "resume"],
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "example": 5,
+            "description": "Book's rating",
+            "minimum": 1,
+            "maximum": 5
+          },
+          "resume": {
+            "type": "string",
+            "example": "Book is good",
+            "description": "Book's resume",
+            "minLength": 1,
+            "maxLength": 50
+          }
+        }
+      },
+      "ResumeBookResponse": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "type": "integer",
+            "example": 5,
+            "description": "Book's rating"
+          },
+          "resume": {
+            "type": "string",
+            "example": "Book is good",
+            "description": "Book's resume"
+          }
+        }
+      },
+      "AddTrainingRequest": {
+        "required": ["startDate", "finishDate", "book"],
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "number",
+            "example": 948372793,
+            "description": "Training start date "
+          },
+          "finishDate": {
+            "type": "number",
+            "example": 948372793,
+            "description": "Training finish date "
+          },
+          "book": {
+            "type": "array",
+            "description": "User's  books in trainings",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "507f1f77bcf86cd799439013",
+                  "description": "Book's id"
+                }
+              }
+            }
+          }
+        }
+      },
+      "AddTrainingResponse": {
+        "type": "object",
+        "properties": {
+          "startDate": {
+            "type": "number",
+            "example": 948372793,
+            "description": "Training start date "
+          },
+          "finishDate": {
+            "type": "number",
+            "example": 948372793,
+            "description": "Training finish date "
+          },
+          "owner": {
+            "type": "string",
+            "example": "633409513a89db83049541ea",
+            "description": "Book's owner"
+          },
+          "book": {
+            "type": "array",
+            "description": "User's library",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "The Book of Five Rings",
+                  "description": "Book's title"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "Miyamoto Musashi",
+                  "description": "Book's author"
+                },
+                "publicDate": {
+                  "type": "integer",
+                  "example": 1900,
+                  "description": "Book's publish year"
+                },
+                "amountPages": {
+                  "type": "integer",
+                  "example": 110,
+                  "description": "Book's total amount of pages"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "readingNow",
+                  "description": "Book's status"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "507f1f77bcf86cd799439013",
+                  "description": "Book's id"
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetTrainingResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "507f1f77bcf86cd799439013",
+            "description": "Training id"
+          },
+          "startDate": {
+            "type": "number",
+            "example": 948372793,
+            "description": "Training start date "
+          },
+          "finishDate": {
+            "type": "number",
+            "example": 948372793,
+            "description": "Training finish date "
+          },
+          "owner": {
+            "type": "string",
+            "example": "633409513a89db83049541ea",
+            "description": "Book's owner"
+          },
+          "book": {
+            "type": "array",
+            "description": "User's library",
+            "items": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "The Book of Five Rings",
+                  "description": "Book's title"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "Miyamoto Musashi",
+                  "description": "Book's author"
+                },
+                "publicDate": {
+                  "type": "integer",
+                  "example": 1900,
+                  "description": "Book's publish year"
+                },
+                "amountPages": {
+                  "type": "integer",
+                  "example": 110,
+                  "description": "Book's total amount of pages"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "readingNow",
+                  "description": "Book's status"
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "507f1f77bcf86cd799439013",
+                  "description": "Book's id"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TrainingStatisticRequest": {
+        "required": ["date", "createAt", "amountPages"],
+        "type": "array",
+            "description": "User's  books in trainings",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "number",
+                  "example": 948372793,
+                  "description": "Date of add statistic"
+                },
+                "createAt": {
+                  "type": "number",
+                  "example": 948372793,
+                  "description": "Create date of add statistic"
+                },
+                "amountPages": {
+                  "type": "integer",
+                  "example": 10,
+                  "description": "Amount of pages reading today"
+                }
+              }
+            }
+      },
+      "TrainingStatisticResponse": {
+       "type": "array",
+            "description": "User's  books in trainings",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "507f1f77bcf86cd799439013",
+                  "description": "Statistic id"
+                },
+                "date": {
+                  "type": "number",
+                  "example": 948372793,
+                  "description": "Date of add statistic"
+                },
+                "createAt": {
+                  "type": "number",
+                  "example": 948372793,
+                  "description": "Create date of add statistic"
+                },
+                "amountPages": {
+                  "type": "integer",
+                  "example": 10,
+                  "description": "Amount of pages reading today"
+                }
+              }
+            }
+          }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
