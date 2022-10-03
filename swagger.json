@@ -119,7 +119,7 @@
           }
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Successful operation",
             "content": {
               "application/json": {
@@ -133,8 +133,12 @@
             "description": "Bad request (invalid request body)",
             "content": {}
           },
-          "409": {
-            "description": "Email is already in use",
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
             "content": {}
           }
         }
@@ -313,10 +317,6 @@
             "description": "Unauthorized (invalid access token)",
             "content": {}
           },
-          "403": {
-            "description": "Book hasn't been finished yet",
-            "content": {}
-          },
           "404": {
             "description": "Invalid user / Invalid session",
             "content": {}
@@ -455,10 +455,6 @@
             "description": "Unauthorized (invalid access token)",
             "content": {}
           },
-          "403": {
-            "description": "Book hasn't been finished yet",
-            "content": {}
-          },
           "404": {
             "description": "Invalid user / Invalid session",
             "content": {}
@@ -508,10 +504,6 @@
           },
           "401": {
             "description": "Unauthorized (invalid access token)",
-            "content": {}
-          },
-          "403": {
-            "description": "Book hasn't been finished yet",
             "content": {}
           },
           "404": {
@@ -1038,57 +1030,106 @@
       "TrainingStatisticRequest": {
         "required": ["date", "createAt", "amountPages"],
         "type": "array",
-            "description": "User's  books in trainings",
-            "items": {
-              "type": "object",
-              "properties": {
-                "date": {
-                  "type": "number",
-                  "example": 948372793,
-                  "description": "Date of add statistic"
-                },
-                "createAt": {
-                  "type": "number",
-                  "example": 948372793,
-                  "description": "Create date of add statistic"
-                },
-                "amountPages": {
-                  "type": "integer",
-                  "example": 10,
-                  "description": "Amount of pages reading today"
-                }
-              }
-            }
-      },
-      "TrainingStatisticResponse": {
-       "type": "array",
-            "description": "User's  books in trainings",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "example": "507f1f77bcf86cd799439013",
-                  "description": "Statistic id"
-                },
-                "date": {
-                  "type": "number",
-                  "example": 948372793,
-                  "description": "Date of add statistic"
-                },
-                "createAt": {
-                  "type": "number",
-                  "example": 948372793,
-                  "description": "Create date of add statistic"
-                },
-                "amountPages": {
-                  "type": "integer",
-                  "example": 10,
-                  "description": "Amount of pages reading today"
-                }
-              }
+        "description": "User's  books in trainings",
+        "items": {
+          "type": "object",
+          "properties": {
+            "date": {
+              "type": "number",
+              "example": 948372793,
+              "description": "Date of add statistic"
+            },
+            "createAt": {
+              "type": "number",
+              "example": 948372793,
+              "description": "Create date of add statistic"
+            },
+            "amountPages": {
+              "type": "integer",
+              "example": 10,
+              "description": "Amount of pages reading today"
             }
           }
+        }
+      },
+      "TrainingStatisticResponse": {
+        "type": "array",
+        "description": "User's  books in trainings",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "507f1f77bcf86cd799439013",
+              "description": "Statistic id"
+            },
+            "date": {
+              "type": "number",
+              "example": 948372793,
+              "description": "Date of add statistic"
+            },
+            "createAt": {
+              "type": "number",
+              "example": 948372793,
+              "description": "Create date of add statistic"
+            },
+            "amountPages": {
+              "type": "integer",
+              "example": 10,
+              "description": "Amount of pages reading today"
+            }
+          }
+        }
+      },
+      "TrainingStatusRequest": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "alreadyRead",
+            "description": "Book's status"
+          }
+        }
+      },
+      "TrainingStatusResponse": {
+        "type": "array",
+        "description": "User's  books alreadyRead",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "example": "The Book of Five Rings",
+              "description": "Book's title"
+            },
+            "author": {
+              "type": "string",
+              "example": "Miyamoto Musashi",
+              "description": "Book's author"
+            },
+            "publicDate": {
+              "type": "integer",
+              "example": 1643,
+              "description": "Book's publish year"
+            },
+            "amountPages": {
+              "type": "integer",
+              "example": 110,
+              "description": "Book's total amount of pages"
+            },
+            "status": {
+              "type": "string",
+              "example": "alreadyRead",
+              "description": "Book's status"
+            },
+            "_id": {
+              "type": "string",
+              "example": "507f1f77bcf86cd799439013",
+              "description": "Book's id"
+            }
+          }
+        }
+      }
     },
     "securitySchemes": {
       "Bearer": {
