@@ -43,11 +43,11 @@ const trainingSchema = new Schema(
         }],
         statistic: [{
             date: {
-                type: Number,
+                type: String,
                 required: [true, "date must be exist"],
             },
             createAt: {
-                type: Number,
+                type: String,
                 required: [true, "date must be exist"],
             },
             amountPages: {
@@ -73,8 +73,8 @@ const updateStatusSchemaJoi = Joi.object({
 })
 
 const addStatisticSchemaJoi = Joi.object({
-    date: Joi.number().required(),
-    createAt:Joi.number().required(),
+    date: Joi.string().required(),
+    createAt:Joi.string().required(),
     amountPages:Joi.number().integer().min(1).max(700).required()
 });
 
