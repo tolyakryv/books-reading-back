@@ -18,11 +18,6 @@ router.post('/',
 router.patch('/:bookId',
     authenticate,
     validationBody(schemaJoi.updateSchema),
-    controllerWrapper(ctrl.updateBook));
-
-router.patch('/:bookId/status',
-    authenticate,
-    validationBody(schemaJoi.updateStatusSchema),
-    controllerWrapper(ctrl.updateStatusBook))
+    controllerWrapper(ctrl.updateBook))
 
 module.exports = router;
