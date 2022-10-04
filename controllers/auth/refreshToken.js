@@ -42,8 +42,12 @@ const refreshToken = async (req, res, next) => {
             id: payload.id,
             sid:newSession._id
         }
-        const newToken = jwt.sign(newPayload, JWT_SECRET_KEY,{expiresIn:"1h"});
-        const newRefreshToken = jwt.sign(newPayload, RefreshTokenSecret,{expiresIn:'2h'});
+        const newToken = jwt.sign(newPayload, JWT_SECRET_KEY, {
+          expiresIn: TokenLife,
+        });
+        const newRefreshToken = jwt.sign(newPayload, RefreshTokenSecret, {
+          expiresIn: RefreshTokenLife,
+        });
         
         res.json({
             sid: newSession._id,

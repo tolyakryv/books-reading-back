@@ -1035,13 +1035,13 @@
           "type": "object",
           "properties": {
             "date": {
-              "type": "number",
-              "example": 948372793,
+              "type": "string",
+              "example": 1664902189309,
               "description": "Date of add statistic"
             },
             "createAt": {
-              "type": "number",
-              "example": 948372793,
+              "type": "string",
+              "example": 1664902189309,
               "description": "Create date of add statistic"
             },
             "amountPages": {
@@ -1064,13 +1064,13 @@
               "description": "Statistic id"
             },
             "date": {
-              "type": "number",
-              "example": 948372793,
+              "type": "string",
+              "example": 1664902189309,
               "description": "Date of add statistic"
             },
             "createAt": {
-              "type": "number",
-              "example": 948372793,
+              "type": "string",
+              "example": 1664902189309,
               "description": "Create date of add statistic"
             },
             "amountPages": {
