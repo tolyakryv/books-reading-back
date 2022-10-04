@@ -13,7 +13,8 @@ const refreshToken = async (req, res, next) => {
     const { authorization = "" } = req.headers;
     if (authorization) {
         const [bearer, refreshToken] = authorization.split(" ");
-        let payload = {};
+        let newPayload = {};
+        let payload ={}
 
         try {
             payload = jwt.verify(refreshToken, RefreshTokenSecret);
@@ -37,9 +38,13 @@ const refreshToken = async (req, res, next) => {
             userId: payload.id
         })
         
-        const newToken = jwt.sign(payload, JWT_SECRET_KEY);
-        const newRefreshToken = jwt.sign(payload, RefreshTokenSecret);
-       
+        newPayload = {
+            id: payload.id,
+            sid:newSession._id
+        }
+        const newToken = jwt.sign(newPayload, JWT_SECRET_KEY,{expiresIn:"1h"});
+        const newRefreshToken = jwt.sign(newPayload, RefreshTokenSecret,{expiresIn:'2h'});
+        
         res.json({
             sid: newSession._id,
             newToken,

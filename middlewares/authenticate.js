@@ -22,6 +22,9 @@ const authenticate = async (req, _, next) => {
     if (!session) {
       next(RequestError(401, "Not found this session"));
     }
+
+    
+
     req.user = user;
     req.session = session;
     next();
