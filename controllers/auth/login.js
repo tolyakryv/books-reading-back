@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const {Session}=require("../../models/Session")
-
 const { User } = require("../../models/user");
 const { RequestError } = require("../../helpers");
 const { JWT_SECRET_KEY, TokenLife, RefreshTokenSecret, RefreshTokenLife } = process.env;
@@ -33,10 +32,11 @@ const login = async (req, res) => {
   res.status(200).json({
     token,
     refreshToken,
-    sid:newSession._id,
+    sid: newSession._id,
     user: {
       name: user.name,
-      email
+      email: user.email,
+      id: user._id,
     },
   });
 };
