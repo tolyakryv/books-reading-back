@@ -554,6 +554,21 @@
       "RegistrationResponse": {
         "type": "object",
         "properties": {
+          "token": {
+            "type": "string",
+            "description": "Session's access token (needed for all requests)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXA"
+          },
+          "refreshToken": {
+            "type": "string",
+            "description": "Session's refresh token (needed for /auth/refresh)",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI1ZmMyMDg1YmQwOTM2NTI4MTA3Y2UyNzQiLCJzaWQiOiI1ZmMyZDJmY2UxZDIwNTA2NzAyYmRkMjIiLCJpYXQiOjE2MDY2MDM1MTYsImV4cCI6MTYwNjYwNzExNn0.rJ_QjU4KvA76H96RHsvOBChK0Vjbd0NmqjMxdQVJIXB"
+          },
+          "sid": {
+            "type": "string",
+            "description": "Session's id (needed for /auth/refresh)",
+            "example": "507f1f77bcf86cd799439010"
+          },
           "user": {
             "type": "object",
             "properties": {
@@ -677,6 +692,11 @@
                 "type": "string",
                 "description": "User's email",
                 "format": "email"
+              },
+              "id": {
+                "type": "string",
+                "description": "User's id",
+                "example": "507f1f77bcf86cd799439011"
               }
             }
           }
@@ -879,13 +899,13 @@
         "type": "object",
         "properties": {
           "startDate": {
-            "type": "number",
-            "example": 948372793,
+            "type": "string",
+            "example": "948372793",
             "description": "Training start date "
           },
           "finishDate": {
-            "type": "number",
-            "example": 948372793,
+            "type": "string",
+            "example": "948372793",
             "description": "Training finish date "
           },
           "book": {
@@ -908,13 +928,13 @@
         "type": "object",
         "properties": {
           "startDate": {
-            "type": "number",
-            "example": 948372793,
+            "type": "string",
+            "example": "948372793",
             "description": "Training start date "
           },
           "finishDate": {
-            "type": "number",
-            "example": 948372793,
+            "type": "string",
+            "example": "948372793",
             "description": "Training finish date "
           },
           "owner": {
