@@ -63,8 +63,8 @@ const trainingSchema = new Schema(
 trainingSchema.post('save', schemaValidation)
 
 const addTimeTrainSchemaJoi = Joi.object({
-    startDate:Joi.number().integer().min(100).required(),
-    finishDate: Joi.number().integer().min(100).required(),
+    startDate:Joi.number().integer().required(),
+    finishDate: Joi.number().integer().required(),
     book:Joi.array()
 });
 
@@ -75,7 +75,7 @@ const updateStatusSchemaJoi = Joi.object({
 const addStatisticSchemaJoi = Joi.object({
     date: Joi.string().required(),
     createAt:Joi.string().required(),
-    amountPages:Joi.number().integer().min(1).max(700).required()
+    amountPages:Joi.number().integer().required()
 });
 
 const schemaJoi = {
