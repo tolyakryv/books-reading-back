@@ -54,13 +54,13 @@ bookSchema.post('save', schemaValidation);
 const addSchemaJoi = Joi.object({
       title: Joi.string().min(1).max(50).required(),
       author: Joi.string().min(1).max(50).required(),
-      publicDate: Joi.number().integer().min(1900).max(2022).required(),
-      amountPages:Joi.number().integer().min(20).max(700).required()
+      publicDate: Joi.number().integer().required(),
+      amountPages:Joi.number().integer().required()
 });
 
 const updateSchemaJoi = Joi.object({
     rating: Joi.number().integer().min(1).max(5).required(),
-    resume: Joi.string().min(1).max(50)
+    resume: Joi.string()
 })
 
 
