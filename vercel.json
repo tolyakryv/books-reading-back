@@ -1,0 +1,10 @@
+{
+   "version": 2,
+   "name": "books-reading-43",
+   "builds": [
+      { "src": "server.js", "use": "@vercel/node" }
+   ],
+   "routes": [
+      { "src": "/(.*)", "dest": "/server.js" }
+   ]
+}
