@@ -11,7 +11,7 @@
   },
   "consumes": ["application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "https://book-reading-08.herokuapp.com" }],
+  "servers": [{ "url": "https://books-reading-back.vercel.app" }],
   "tags": [
     {
       "name": "Auth",
